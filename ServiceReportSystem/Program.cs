@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ServiceReportSystem.Data;
+using System.Text.Json.Serialization;
 
 internal class Program
 {
@@ -18,6 +19,7 @@ internal class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+
 
         // Add CORS configuration
         builder.Services.AddCors(options =>

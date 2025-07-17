@@ -6,7 +6,7 @@ namespace ServiceReportSystem.Models {
     public class User
     {
         [Key]
-        public int ID { get; set; }
+        public Guid ID { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(100)")]

@@ -5,15 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceReportSystem.Models
 {
-    public class ActionTaken
+    public class FormStatus
     {
         [Key]
         public Guid ID { get; set; }
         public string? Description { get; set; }
         public string? Remark { get; set; }
 
-        [ForeignKey("ActionTakenWarehouse")]
-        public Guid ActionTakenWarehouseID { get; set; }
+        [ForeignKey("FormStatusWarehouse")]
+        public Guid FormStatusWarehouseID { get; set; }
+        public FormStatusWarehouses FormStatusWarehouse { get; set; }
 
         [ForeignKey("ServiceReportForm")]
         public Guid ServiceReportFormID { get; set; }
@@ -26,7 +27,6 @@ namespace ServiceReportSystem.Models
         [ForeignKey("UpdatedByUser")]
         public Guid? UpdatedBy { get; set; }
         public User UpdatedByUser { get; set; }
-
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         

@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceReportSystem.Models
 {
-    public class ActionTaken
+    public class FurtherActionTaken
     {
         [Key]
         public Guid ID { get; set; }
         public string? Description { get; set; }
         public string? Remark { get; set; }
 
-        [ForeignKey("ActionTakenWarehouse")]
-        public Guid ActionTakenWarehouseID { get; set; }
+        [ForeignKey("FurtherActionTakenWarehouse")]
+        public Guid FurtherActionTakenWarehouseID { get; set; }
 
         [ForeignKey("ServiceReportForm")]
         public Guid ServiceReportFormID { get; set; }

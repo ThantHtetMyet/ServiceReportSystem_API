@@ -8,22 +8,26 @@ namespace ServiceReportSystem.Models
     public class IssueFound
     {
         [Key]
-        public int ID { get; set; }
+        public Guid ID { get; set; }
+
+        public string? Description { get; set; }
+        public string? Remark { get; set; }
 
         [ForeignKey("IssueFoundWarehouse")]
-        public int IssueReportID { get; set; }
-        [DeleteBehavior(DeleteBehavior.Restrict)]
-        public IssueFoundWarehouse IssueFoundWarehouse { get; set; }
+        public Guid IssueFoundWarehouseID { get; set; }
 
         [ForeignKey("ServiceReportForm")]
-        public int ServiceReportFormID { get; set; }
-        [DeleteBehavior(DeleteBehavior.Restrict)]
-        public ServiceReportForm ServiceReportForm { get; set; }
+        public Guid ServiceReportFormID { get; set; }
 
-        [Column(TypeName = "nvarchar(max)")]
-        public string Description { get; set; }
+        [ForeignKey("CreatedByUser")]
+        public Guid? CreatedBy { get; set; }
 
-        [Column(TypeName = "nvarchar(max)")]
-        public string Remark { get; set; }
+        [ForeignKey("UpdatedByUser")]
+        public Guid? UpdatedBy { get; set; }
+        public User UpdatedByUser { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        
+        public bool IsDeleted { get; set; }
     }
 }

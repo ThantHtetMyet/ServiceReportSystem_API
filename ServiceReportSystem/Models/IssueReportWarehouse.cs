@@ -7,7 +7,7 @@ namespace ServiceReportSystem.Models
     public class IssueReportWarehouse
     {
         [Key]
-        public int ID { get; set; }
+        public Guid ID { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(100)")]
@@ -18,12 +18,12 @@ namespace ServiceReportSystem.Models
         public DateTime UpdatedDate { get; set; }
 
         [ForeignKey("CreatedByUser")]
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public User CreatedByUser { get; set; }
 
         [ForeignKey("UpdatedByUser")]
-        public int? UpdatedBy { get; set; }
+        public Guid? UpdatedBy { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public User UpdatedByUser { get; set; }
     }

@@ -15,8 +15,7 @@ namespace ServiceReportSystem.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", nullable: false),
@@ -24,7 +23,7 @@ namespace ServiceReportSystem.Migrations
                     Gender = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     LoginPassword = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    LastLogin = table.Column<DateTime>(type: "Date", nullable: false)
+                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,14 +34,13 @@ namespace ServiceReportSystem.Migrations
                 name: "ActionTakenWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,15 +63,14 @@ namespace ServiceReportSystem.Migrations
                 name: "CustomerWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,14 +93,13 @@ namespace ServiceReportSystem.Migrations
                 name: "FollowupActionWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FollowupActionNo = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,14 +122,13 @@ namespace ServiceReportSystem.Migrations
                 name: "FormStatusWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,17 +148,45 @@ namespace ServiceReportSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IssueFoundWarehouses",
+                name: "FurtherActionTakenWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FurtherActionTakenWarehouses", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_FurtherActionTakenWarehouses_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FurtherActionTakenWarehouses_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IssueFoundWarehouses",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,14 +209,13 @@ namespace ServiceReportSystem.Migrations
                 name: "IssueReportWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -216,14 +238,13 @@ namespace ServiceReportSystem.Migrations
                 name: "LocationWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -246,14 +267,13 @@ namespace ServiceReportSystem.Migrations
                 name: "ProjectNoWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProjectNumber = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -276,14 +296,13 @@ namespace ServiceReportSystem.Migrations
                 name: "ServiceTypeWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -306,14 +325,13 @@ namespace ServiceReportSystem.Migrations
                 name: "SystemWarehouses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -336,15 +354,13 @@ namespace ServiceReportSystem.Migrations
                 name: "ServiceReportForms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
-                    ProjectNoID = table.Column<int>(type: "int", nullable: false),
-                    SystemID = table.Column<int>(type: "int", nullable: false),
-                    LocationID = table.Column<int>(type: "int", nullable: false),
-                    FollowupActionID = table.Column<int>(type: "int", nullable: false),
-                    ServiceTypeID = table.Column<int>(type: "int", nullable: false),
-                    FormStatusID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    JobNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Customer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProjectNoID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SystemID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LocationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FollowupActionID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FailureDetectedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ResponseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -352,28 +368,16 @@ namespace ServiceReportSystem.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ServiceReportForms", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ServiceReportForms_CustomerWarehouses_CustomerID",
-                        column: x => x.CustomerID,
-                        principalTable: "CustomerWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_ServiceReportForms_FollowupActionWarehouses_FollowupActionID",
                         column: x => x.FollowupActionID,
                         principalTable: "FollowupActionWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ServiceReportForms_FormStatusWarehouses_FormStatusID",
-                        column: x => x.FormStatusID,
-                        principalTable: "FormStatusWarehouses",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -386,12 +390,6 @@ namespace ServiceReportSystem.Migrations
                         name: "FK_ServiceReportForms_ProjectNoWarehouses_ProjectNoID",
                         column: x => x.ProjectNoID,
                         principalTable: "ProjectNoWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ServiceReportForms_ServiceTypeWarehouses_ServiceTypeID",
-                        column: x => x.ServiceTypeID,
-                        principalTable: "ServiceTypeWarehouses",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -418,95 +416,211 @@ namespace ServiceReportSystem.Migrations
                 name: "ActionTaken",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IssueReportID = table.Column<int>(type: "int", nullable: false),
-                    ServiceReportFormID = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActionTakenWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ActionTaken", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ActionTaken_ActionTakenWarehouses_IssueReportID",
-                        column: x => x.IssueReportID,
-                        principalTable: "ActionTakenWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_ActionTaken_ServiceReportForms_ServiceReportFormID",
                         column: x => x.ServiceReportFormID,
                         principalTable: "ServiceReportForms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActionTaken_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_ActionTaken_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FormStatus",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FormStatusWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FormStatus", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_FormStatus_ServiceReportForms_ServiceReportFormID",
+                        column: x => x.ServiceReportFormID,
+                        principalTable: "ServiceReportForms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FormStatus_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_FormStatus_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FurtherActionTaken",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FurtherActionTakenWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FurtherActionTaken", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_FurtherActionTaken_ServiceReportForms_ServiceReportFormID",
+                        column: x => x.ServiceReportFormID,
+                        principalTable: "ServiceReportForms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FurtherActionTaken_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_FurtherActionTaken_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "IssueFound",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IssueReportID = table.Column<int>(type: "int", nullable: false),
-                    ServiceReportFormID = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IssueFoundWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IssueFound", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_IssueFound_IssueFoundWarehouses_IssueReportID",
-                        column: x => x.IssueReportID,
-                        principalTable: "IssueFoundWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_IssueFound_ServiceReportForms_ServiceReportFormID",
                         column: x => x.ServiceReportFormID,
                         principalTable: "ServiceReportForms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IssueFound_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "IssueReported",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IssueReportID = table.Column<int>(type: "int", nullable: false),
-                    ServiceReportFormID = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IssueReportWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IssueReported", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_IssueReported_IssueReportWarehouses_IssueReportID",
-                        column: x => x.IssueReportID,
-                        principalTable: "IssueReportWarehouses",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_IssueReported_ServiceReportForms_ServiceReportFormID",
                         column: x => x.ServiceReportFormID,
                         principalTable: "ServiceReportForms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IssueReported_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceType",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServiceTypeWarehouseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceType", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ServiceType_ServiceReportForms_ServiceReportFormID",
+                        column: x => x.ServiceReportFormID,
+                        principalTable: "ServiceReportForms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ServiceType_Users_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "Users",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActionTaken_IssueReportID",
+                name: "IX_ActionTaken_CreatedBy",
                 table: "ActionTaken",
-                column: "IssueReportID");
+                column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActionTaken_ServiceReportFormID",
                 table: "ActionTaken",
                 column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActionTaken_UpdatedBy",
+                table: "ActionTaken",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActionTakenWarehouses_CreatedBy",
@@ -539,6 +653,21 @@ namespace ServiceReportSystem.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FormStatus_CreatedBy",
+                table: "FormStatus",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FormStatus_ServiceReportFormID",
+                table: "FormStatus",
+                column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FormStatus_UpdatedBy",
+                table: "FormStatus",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FormStatusWarehouses_CreatedBy",
                 table: "FormStatusWarehouses",
                 column: "CreatedBy");
@@ -549,14 +678,39 @@ namespace ServiceReportSystem.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IssueFound_IssueReportID",
-                table: "IssueFound",
-                column: "IssueReportID");
+                name: "IX_FurtherActionTaken_CreatedBy",
+                table: "FurtherActionTaken",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FurtherActionTaken_ServiceReportFormID",
+                table: "FurtherActionTaken",
+                column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FurtherActionTaken_UpdatedBy",
+                table: "FurtherActionTaken",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FurtherActionTakenWarehouses_CreatedBy",
+                table: "FurtherActionTakenWarehouses",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FurtherActionTakenWarehouses_UpdatedBy",
+                table: "FurtherActionTakenWarehouses",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueFound_ServiceReportFormID",
                 table: "IssueFound",
                 column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IssueFound_UpdatedBy",
+                table: "IssueFound",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueFoundWarehouses_CreatedBy",
@@ -569,14 +723,14 @@ namespace ServiceReportSystem.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IssueReported_IssueReportID",
-                table: "IssueReported",
-                column: "IssueReportID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_IssueReported_ServiceReportFormID",
                 table: "IssueReported",
                 column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IssueReported_UpdatedBy",
+                table: "IssueReported",
+                column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueReportWarehouses_CreatedBy",
@@ -614,19 +768,9 @@ namespace ServiceReportSystem.Migrations
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceReportForms_CustomerID",
-                table: "ServiceReportForms",
-                column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ServiceReportForms_FollowupActionID",
                 table: "ServiceReportForms",
                 column: "FollowupActionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiceReportForms_FormStatusID",
-                table: "ServiceReportForms",
-                column: "FormStatusID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceReportForms_LocationID",
@@ -639,11 +783,6 @@ namespace ServiceReportSystem.Migrations
                 column: "ProjectNoID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceReportForms_ServiceTypeID",
-                table: "ServiceReportForms",
-                column: "ServiceTypeID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ServiceReportForms_SystemID",
                 table: "ServiceReportForms",
                 column: "SystemID");
@@ -651,6 +790,16 @@ namespace ServiceReportSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceReportForms_UpdatedBy",
                 table: "ServiceReportForms",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceType_ServiceReportFormID",
+                table: "ServiceType",
+                column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceType_UpdatedBy",
+                table: "ServiceType",
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
@@ -681,40 +830,52 @@ namespace ServiceReportSystem.Migrations
                 name: "ActionTaken");
 
             migrationBuilder.DropTable(
-                name: "IssueFound");
-
-            migrationBuilder.DropTable(
-                name: "IssueReported");
-
-            migrationBuilder.DropTable(
                 name: "ActionTakenWarehouses");
-
-            migrationBuilder.DropTable(
-                name: "IssueFoundWarehouses");
-
-            migrationBuilder.DropTable(
-                name: "IssueReportWarehouses");
-
-            migrationBuilder.DropTable(
-                name: "ServiceReportForms");
 
             migrationBuilder.DropTable(
                 name: "CustomerWarehouses");
 
             migrationBuilder.DropTable(
-                name: "FollowupActionWarehouses");
+                name: "FormStatus");
 
             migrationBuilder.DropTable(
                 name: "FormStatusWarehouses");
+
+            migrationBuilder.DropTable(
+                name: "FurtherActionTaken");
+
+            migrationBuilder.DropTable(
+                name: "FurtherActionTakenWarehouses");
+
+            migrationBuilder.DropTable(
+                name: "IssueFound");
+
+            migrationBuilder.DropTable(
+                name: "IssueFoundWarehouses");
+
+            migrationBuilder.DropTable(
+                name: "IssueReported");
+
+            migrationBuilder.DropTable(
+                name: "IssueReportWarehouses");
+
+            migrationBuilder.DropTable(
+                name: "ServiceType");
+
+            migrationBuilder.DropTable(
+                name: "ServiceTypeWarehouses");
+
+            migrationBuilder.DropTable(
+                name: "ServiceReportForms");
+
+            migrationBuilder.DropTable(
+                name: "FollowupActionWarehouses");
 
             migrationBuilder.DropTable(
                 name: "LocationWarehouses");
 
             migrationBuilder.DropTable(
                 name: "ProjectNoWarehouses");
-
-            migrationBuilder.DropTable(
-                name: "ServiceTypeWarehouses");
 
             migrationBuilder.DropTable(
                 name: "SystemWarehouses");

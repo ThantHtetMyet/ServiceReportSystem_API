@@ -23,5 +23,20 @@ namespace ServiceReportSystem.Controllers
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
         }
+
+        [HttpGet("projectnumber/{projectNumber}")]
+        public async Task<ActionResult<ProjectNoWarehouse>> GetProjectNoByProjectNumber(string projectNumber)
+        {
+            var project = await _context.ProjectNoWarehouses
+                .Where(x => !x.IsDeleted && x.ProjectNumber == projectNumber)
+                .FirstOrDefaultAsync();
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return project;
+        }
     }
 }

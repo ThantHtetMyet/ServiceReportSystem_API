@@ -24,45 +24,56 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.ActionTaken", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.Property<Guid>("ActionTakenWarehouseID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IssueReportID")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ServiceReportFormID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IssueReportID");
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("ActionTaken");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.ActionTakenWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -74,8 +85,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -91,18 +102,16 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.CustomerWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ContactNo")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -114,8 +123,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -131,14 +140,12 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.FollowupActionWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -150,8 +157,8 @@ namespace ServiceReportSystem.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -165,16 +172,58 @@ namespace ServiceReportSystem.Migrations
                     b.ToTable("FollowupActionWarehouses");
                 });
 
-            modelBuilder.Entity("ServiceReportSystem.Models.FormStatusWarehouse", b =>
+            modelBuilder.Entity("ServiceReportSystem.Models.FormStatus", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FormStatusWarehouseID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FormStatus");
+                });
+
+            modelBuilder.Entity("ServiceReportSystem.Models.FormStatusWarehouses", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -186,8 +235,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -201,16 +250,58 @@ namespace ServiceReportSystem.Migrations
                     b.ToTable("FormStatusWarehouses");
                 });
 
+            modelBuilder.Entity("ServiceReportSystem.Models.FurtherActionTaken", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FurtherActionTakenWarehouseID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FurtherActionTaken");
+                });
+
             modelBuilder.Entity("ServiceReportSystem.Models.FurtherActionTakenWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -222,8 +313,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -234,50 +325,59 @@ namespace ServiceReportSystem.Migrations
 
                     b.HasIndex("UpdatedBy");
 
-                    b.ToTable("FurtherActionTakenWarehouse");
+                    b.ToTable("FurtherActionTakenWarehouses");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueFound", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IssueReportID")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("IssueFoundWarehouseID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ServiceReportFormID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IssueReportID");
-
                     b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("IssueFound");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueFoundWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -289,8 +389,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -306,14 +406,12 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueReportWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -325,8 +423,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -342,45 +440,54 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueReported", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IssueReportID")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("IssueReportWarehouseID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ServiceReportFormID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IssueReportID");
-
                     b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("IssueReported");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.LocationWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -392,8 +499,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -409,14 +516,12 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.ProjectNoWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -428,8 +533,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -445,11 +550,9 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.ServiceReportForm", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ArrivalDate")
                         .HasColumnType("datetime2");
@@ -457,47 +560,43 @@ namespace ServiceReportSystem.Migrations
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
+                    b.Property<string>("Customer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FailureDetectedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FollowupActionID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FormStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FurtherActionTakenID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FollowupActionID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LocationID")
-                        .HasColumnType("int");
+                    b.Property<string>("JobNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("ProjectNoID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("LocationID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProjectNoID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ResponseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ServiceTypeID")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SystemID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SystemID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -506,19 +605,11 @@ namespace ServiceReportSystem.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("CustomerID");
-
                     b.HasIndex("FollowupActionID");
-
-                    b.HasIndex("FormStatusID");
-
-                    b.HasIndex("FurtherActionTakenID");
 
                     b.HasIndex("LocationID");
 
                     b.HasIndex("ProjectNoID");
-
-                    b.HasIndex("ServiceTypeID");
 
                     b.HasIndex("SystemID");
 
@@ -527,16 +618,56 @@ namespace ServiceReportSystem.Migrations
                     b.ToTable("ServiceReportForms");
                 });
 
+            modelBuilder.Entity("ServiceReportSystem.Models.ServiceType", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServiceTypeWarehouseID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ServiceType");
+                });
+
             modelBuilder.Entity("ServiceReportSystem.Models.ServiceTypeWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -548,8 +679,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -565,14 +696,12 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.SystemWarehouse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -584,8 +713,8 @@ namespace ServiceReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -601,11 +730,9 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.User", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -644,21 +771,23 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.ActionTaken", b =>
                 {
-                    b.HasOne("ServiceReportSystem.Models.ActionTakenWarehouse", "ActionTakenWarehouse")
+                    b.HasOne("ServiceReportSystem.Models.User", "CreatedByUser")
                         .WithMany()
-                        .HasForeignKey("IssueReportID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CreatedBy");
 
-                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", "ServiceReportForm")
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
                         .WithMany("ActionTaken")
                         .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ActionTakenWarehouse");
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
 
-                    b.Navigation("ServiceReportForm");
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.ActionTakenWarehouse", b =>
@@ -712,7 +841,28 @@ namespace ServiceReportSystem.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("ServiceReportSystem.Models.FormStatusWarehouse", b =>
+            modelBuilder.Entity("ServiceReportSystem.Models.FormStatus", b =>
+                {
+                    b.HasOne("ServiceReportSystem.Models.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
+                        .WithMany("FormStatus")
+                        .HasForeignKey("ServiceReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ServiceReportSystem.Models.FormStatusWarehouses", b =>
                 {
                     b.HasOne("ServiceReportSystem.Models.User", "CreatedByUser")
                         .WithMany()
@@ -723,6 +873,27 @@ namespace ServiceReportSystem.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ServiceReportSystem.Models.FurtherActionTaken", b =>
+                {
+                    b.HasOne("ServiceReportSystem.Models.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
+                        .WithMany("FurtherActionTaken")
+                        .HasForeignKey("ServiceReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
 
                     b.Navigation("CreatedByUser");
 
@@ -748,21 +919,17 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueFound", b =>
                 {
-                    b.HasOne("ServiceReportSystem.Models.IssueFoundWarehouse", "IssueFoundWarehouse")
-                        .WithMany()
-                        .HasForeignKey("IssueReportID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", "ServiceReportForm")
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
                         .WithMany("IssueFound")
                         .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("IssueFoundWarehouse");
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
 
-                    b.Navigation("ServiceReportForm");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueFoundWarehouse", b =>
@@ -801,21 +968,17 @@ namespace ServiceReportSystem.Migrations
 
             modelBuilder.Entity("ServiceReportSystem.Models.IssueReported", b =>
                 {
-                    b.HasOne("ServiceReportSystem.Models.IssueReportWarehouse", "IssueReportWarehouse")
-                        .WithMany()
-                        .HasForeignKey("IssueReportID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", "ServiceReportForm")
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
                         .WithMany("IssueReported")
                         .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("IssueReportWarehouse");
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
 
-                    b.Navigation("ServiceReportForm");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ServiceReportSystem.Models.LocationWarehouse", b =>
@@ -859,27 +1022,9 @@ namespace ServiceReportSystem.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ServiceReportSystem.Models.CustomerWarehouse", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ServiceReportSystem.Models.FollowupActionWarehouse", "FollowupAction")
                         .WithMany()
                         .HasForeignKey("FollowupActionID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ServiceReportSystem.Models.FormStatusWarehouse", "FormStatus")
-                        .WithMany()
-                        .HasForeignKey("FormStatusID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ServiceReportSystem.Models.FurtherActionTakenWarehouse", "FurtherActionTaken")
-                        .WithMany()
-                        .HasForeignKey("FurtherActionTakenID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -892,12 +1037,6 @@ namespace ServiceReportSystem.Migrations
                     b.HasOne("ServiceReportSystem.Models.ProjectNoWarehouse", "ProjectNo")
                         .WithMany()
                         .HasForeignKey("ProjectNoID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ServiceReportSystem.Models.ServiceTypeWarehouse", "ServiceType")
-                        .WithMany()
-                        .HasForeignKey("ServiceTypeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -914,21 +1053,28 @@ namespace ServiceReportSystem.Migrations
 
                     b.Navigation("CreatedByUser");
 
-                    b.Navigation("Customer");
-
                     b.Navigation("FollowupAction");
-
-                    b.Navigation("FormStatus");
-
-                    b.Navigation("FurtherActionTaken");
 
                     b.Navigation("Location");
 
                     b.Navigation("ProjectNo");
 
-                    b.Navigation("ServiceType");
-
                     b.Navigation("System");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ServiceReportSystem.Models.ServiceType", b =>
+                {
+                    b.HasOne("ServiceReportSystem.Models.ServiceReportForm", null)
+                        .WithMany("ServiceType")
+                        .HasForeignKey("ServiceReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceReportSystem.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -971,9 +1117,15 @@ namespace ServiceReportSystem.Migrations
                 {
                     b.Navigation("ActionTaken");
 
+                    b.Navigation("FormStatus");
+
+                    b.Navigation("FurtherActionTaken");
+
                     b.Navigation("IssueFound");
 
                     b.Navigation("IssueReported");
+
+                    b.Navigation("ServiceType");
                 });
 #pragma warning restore 612, 618
         }

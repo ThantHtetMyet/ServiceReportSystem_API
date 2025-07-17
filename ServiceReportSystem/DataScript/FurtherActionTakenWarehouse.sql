@@ -1,7 +1,6 @@
-INSERT INTO FurtherActionTakenWarehouses (Name, IsDeleted, CreatedDate, UpdatedDate, CreatedBy, UpdatedBy)
+INSERT INTO FurtherActionTakenWarehouses (ID, Name, IsDeleted, CreatedDate, UpdatedDate, CreatedBy, UpdatedBy)
 VALUES 
-('KIV - Pending parts delivery', 0, GETDATE(), GETDATE(), 2, 2),
-('KIV - Awaiting client confirmation', 0, GETDATE(), GETDATE(), 2, 2),
-('KIV - Pending third party support', 0, GETDATE(), GETDATE(), 2, 2),
-('KIV - Requires further testing', 0, GETDATE(), GETDATE(), 2, 2),
-('KIV - Schedule follow-up maintenance', 0, GETDATE(), GETDATE(), 2, 2);
+(NEWID(), 'Monitor', 0, GETDATE(), GETDATE(), 'E5395EC7-2763-43FB-67B9-08DDC564DBCD', 'E5395EC7-2763-43FB-67B9-08DDC564DBCD'),
+(NEWID(), 'KIV', 0, GETDATE(), GETDATE(), 'E5395EC7-2763-43FB-67B9-08DDC564DBCD', 'E5395EC7-2763-43FB-67B9-08DDC564DBCD'),
+(NEWID(), 'Referral', 0, GETDATE(), GETDATE(), 'E5395EC7-2763-43FB-67B9-08DDC564DBCD', 'E5395EC7-2763-43FB-67B9-08DDC564DBCD'),
+(NEWID(), 'Other', 0, GETDATE(), GETDATE(), 'E5395EC7-2763-43FB-67B9-08DDC564DBCD', 'E5395EC7-2763-43FB-67B9-08DDC564DBCD');
