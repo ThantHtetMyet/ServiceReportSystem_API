@@ -14,9 +14,15 @@ namespace ServiceReportSystem.Models
 
         [ForeignKey("FurtherActionTakenWarehouse")]
         public Guid FurtherActionTakenWarehouseID { get; set; }
+        
+        // Add missing navigation property
+        public FurtherActionTakenWarehouse FurtherActionTakenWarehouse { get; set; }
 
         [ForeignKey("ServiceReportForm")]
         public Guid ServiceReportFormID { get; set; }
+        
+        // Add missing navigation property
+        public ServiceReportForm ServiceReportForm { get; set; }
 
         [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }

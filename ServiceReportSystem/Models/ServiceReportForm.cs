@@ -13,6 +13,7 @@ namespace ServiceReportSystem.Models {
         public string? JobNumber { get; set; }
 
         public string Customer { get; set; }
+        public string ContactNo { get; set; }
 
         [ForeignKey("ProjectNo")]
         public Guid ProjectNoID { get; set; }

@@ -8,6 +8,7 @@ namespace ServiceReportSystem.DTOs
         public Guid ID { get; set; }
         public string JobNumber { get; set; }
         public string Customer { get; set; }
+        public string ContactNo { get; set; }
 
         public Guid ProjectNoID { get; set; }
         public string ProjectNumberName { get; set; }
@@ -35,12 +36,20 @@ namespace ServiceReportSystem.DTOs
         public string? ActionTakenRemark { get; set; }
         public string? FurtherActionTakenRemark { get; set; }
         public string? FormStatusRemark { get; set; }
+        
+        // Add missing collections
         public List<ServiceTypeDto> ServiceType { get; set; }
         public List<FormStatusDto> FormStatus { get; set; }
+        public List<IssueReportedDto> IssueReported { get; set; }
+        public List<IssueFoundDto> IssueFound { get; set; }
+        public List<ActionTakenDto> ActionTaken { get; set; }
+        public List<FurtherActionDto> FurtherActionTaken { get; set; }
     }
 
     public class CreateServiceReportDto
     {
+        public string JobNumber { get; set; }
+        public string ContactNo { get; set; }
         public string Customer { get; set; }
         public Guid ProjectNoID { get; set; }
         public Guid SystemID { get; set; }
@@ -68,19 +77,24 @@ namespace ServiceReportSystem.DTOs
     public class UpdateServiceReportDto
     {
         public string Customer { get; set; }
+        public string ContactNo { get; set; }  // Add this field
         public Guid ProjectNoID { get; set; }
         public Guid SystemID { get; set; }
         public Guid LocationID { get; set; }
         public Guid FollowupActionID { get; set; }
-        public Guid ServiceTypeID { get; set; }
-        public Guid FormStatusID { get; set; }
         public DateTime? FailureDetectedDate { get; set; }
         public DateTime? ResponseDate { get; set; }
         public DateTime? ArrivalDate { get; set; }
         public DateTime? CompletionDate { get; set; }
-        public List<UpdateIssueReportedDto> IssueReported { get; set; }
-        public List<UpdateIssueFoundDto> IssueFound { get; set; }
-        public List<UpdateActionTakenDto> ActionTaken { get; set; }
-        public string UpdatedBy { get; set; }  // Add UpdatedBy property
+        
+        // Change these to match frontend structure (TempItem with Id and Remark)
+        public List<TempItem>? ServiceType { get; set; }
+        public List<TempItem>? FormStatus { get; set; }
+        public List<TempItem>? IssueReported { get; set; }
+        public List<TempItem>? IssueFound { get; set; }
+        public List<TempItem>? ActionTaken { get; set; }
+        public List<TempItem>? FurtherAction { get; set; }
+        
+        public string UpdatedBy { get; set; }
     }
 }

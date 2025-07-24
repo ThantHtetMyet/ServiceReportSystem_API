@@ -32,6 +32,7 @@ namespace ServiceReportSystem.Controllers
                 .Where(s => !s.IsDeleted)
                 .Select(s => new ServiceReportDto
                 {
+                    ID = s.ID,  // Add this missing line!
                     JobNumber = s.JobNumber,
                     Customer = s.Customer,
                     SystemName = s.System.Name,
@@ -62,7 +63,6 @@ namespace ServiceReportSystem.Controllers
         public async Task<ActionResult<ServiceReportDto>> GetServiceReport(Guid id)
         {
             var serviceReport = await _context.ServiceReportForms
-                .Include(s => s.Customer)
                 .Include(s => s.ProjectNo)
                 .Include(s => s.System)
                 .Include(s => s.Location)
@@ -74,8 +74,13 @@ namespace ServiceReportSystem.Controllers
                 .Include(s => s.CreatedByUser)
                 .Include(s => s.UpdatedByUser)
                 .Include(s => s.IssueReported)
+                    .ThenInclude(ir => ir.IssueReportWarehouse)
                 .Include(s => s.IssueFound)
+                    .ThenInclude(issueFound => issueFound.IssueFoundWarehouse)
                 .Include(s => s.ActionTaken)
+                    .ThenInclude(at => at.ActionTakenWarehouse)
+                .Include(s => s.FurtherActionTaken)
+                    .ThenInclude(fat => fat.FurtherActionTakenWarehouse)
                 .FirstOrDefaultAsync(s => s.ID == id && !s.IsDeleted);
 
             if (serviceReport == null)
@@ -86,8 +91,11 @@ namespace ServiceReportSystem.Controllers
             var dto = new ServiceReportDto
             {
                 ID = serviceReport.ID,
+                JobNumber = serviceReport.JobNumber,
+                ContactNo = serviceReport.ContactNo,
                 Customer = serviceReport.Customer,
                 ProjectNoID = serviceReport.ProjectNoID,
+                ProjectNumberName = serviceReport.ProjectNo.ProjectNumber,
                 SystemID = serviceReport.SystemID,
                 SystemName = serviceReport.System.Name,
                 LocationID = serviceReport.LocationID,
@@ -102,18 +110,58 @@ namespace ServiceReportSystem.Controllers
                 CreatedByUserName = serviceReport.CreatedByUser.FirstName,
                 UpdatedDate = serviceReport.UpdatedDate,
                 UpdatedByUserName = serviceReport.UpdatedByUser.FirstName,
+                
+                // Map collections
                 ServiceType = serviceReport.ServiceType.Select(st => new ServiceTypeDto
                 {
                     Id = st.ServiceTypeWarehouseID,
                     Name = st.ServiceTypeWarehouse.Name,
                     Remark = st.Remark
                 }).ToList(),
+                
                 FormStatus = serviceReport.FormStatus.Select(fs => new FormStatusDto
                 {
                     Id = fs.FormStatusWarehouseID,
                     Name = fs.FormStatusWarehouse.Name,
                     Remark = fs.Remark
-                }).ToList()
+                }).ToList(),
+                
+                // Fix mappings to extract warehouse IDs instead of record IDs
+                IssueReported = serviceReport.IssueReported.Select(ir => new IssueReportedDto
+                {
+                    ID = ir.IssueReportWarehouseID,  // ✅ Changed from ir.ID
+                    Description = ir.IssueReportWarehouse?.Name ?? string.Empty,
+                    Remark = ir.Remark
+                }).ToList(),
+                
+                IssueFound = serviceReport.IssueFound.Select(ifound => new IssueFoundDto
+                {
+                    ID = ifound.IssueFoundWarehouseID,  // ✅ Changed from ifound.ID
+                    Description = ifound.IssueFoundWarehouse?.Name ?? string.Empty,
+                    Remark = ifound.Remark
+                }).ToList(),
+                
+                ActionTaken = serviceReport.ActionTaken.Select(at => new ActionTakenDto
+                {
+                    ID = at.ActionTakenWarehouseID,  // ✅ Changed from at.ID
+                    Description = at.ActionTakenWarehouse?.Name ?? string.Empty,
+                    Remark = at.Remark
+                }).ToList(),
+                
+                FurtherActionTaken = serviceReport.FurtherActionTaken.Select(fat => new FurtherActionDto
+                {
+                    ID = fat.FurtherActionTakenWarehouseID,  // ✅ Changed from fat.ID
+                    Description = fat.FurtherActionTakenWarehouse?.Name ?? string.Empty,
+                    Remark = fat.Remark
+                }).ToList(),
+                
+                // Set remark fields from first items (if any)
+                ServiceTypeRemark = serviceReport.ServiceType.FirstOrDefault()?.Remark,
+                IssueReportedRemark = serviceReport.IssueReported.FirstOrDefault()?.Remark,
+                IssueFoundRemark = serviceReport.IssueFound.FirstOrDefault()?.Remark,
+                ActionTakenRemark = serviceReport.ActionTaken.FirstOrDefault()?.Remark,
+                FurtherActionTakenRemark = serviceReport.FurtherActionTaken.FirstOrDefault()?.Remark,
+                FormStatusRemark = serviceReport.FormStatus.FirstOrDefault()?.Remark
             };
 
             return dto;
@@ -151,25 +199,9 @@ namespace ServiceReportSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            // Get the latest job number
-            var latestJobNumber = await _context.ServiceReportForms
-                .Where(s => s.JobNumber != null)
-                .OrderByDescending(s => s.ID)
-                .Select(s => s.JobNumber)
-                .FirstOrDefaultAsync();
-
             // Generate the next job number
-            string nextJobNumber;
-            if (string.IsNullOrEmpty(latestJobNumber))
-            {
-                nextJobNumber = "M001";
-            }
-            else
-            {
-                int currentNumber = int.Parse(latestJobNumber.Substring(2));
-                nextJobNumber = $"M{(currentNumber + 1):D3}";
-            }
+            string nextJobNumber = createDto.JobNumber;
+
 
             // Map DTO to Entity
             var serviceReport = new ServiceReportForm
@@ -177,6 +209,7 @@ namespace ServiceReportSystem.Controllers
                 ID = Guid.NewGuid(),
                 JobNumber = nextJobNumber,
                 Customer = createDto.Customer,
+                ContactNo = createDto.ContactNo,
                 ProjectNoID = createDto.ProjectNoID,
                 SystemID = createDto.SystemID,
                 LocationID = createDto.LocationID,
@@ -302,18 +335,27 @@ namespace ServiceReportSystem.Controllers
 
             return CreatedAtAction(nameof(GetServiceReport), new { id = serviceReport.ID }, responseDto);
         }
-        // In UpdateServiceReport method - parameter should be Guid
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateServiceReport(Guid id, UpdateServiceReportDto updateDto)
         {
-            var serviceReport = await _context.ServiceReportForms.FindAsync(id);
+            var serviceReport = await _context.ServiceReportForms
+                .Include(s => s.ServiceType)
+                .Include(s => s.FormStatus)
+                .Include(s => s.IssueReported)
+                .Include(s => s.IssueFound)
+                .Include(s => s.ActionTaken)
+                .Include(s => s.FurtherActionTaken)
+                .FirstOrDefaultAsync(s => s.ID == id);
 
             if (serviceReport == null || serviceReport.IsDeleted)
             {
                 return NotFound();
             }
 
+            // Update basic fields
             serviceReport.Customer = updateDto.Customer;
+            serviceReport.ContactNo = updateDto.ContactNo;
             serviceReport.ProjectNoID = updateDto.ProjectNoID;
             serviceReport.SystemID = updateDto.SystemID;
             serviceReport.LocationID = updateDto.LocationID;
@@ -324,6 +366,84 @@ namespace ServiceReportSystem.Controllers
             serviceReport.CompletionDate = updateDto.CompletionDate;
             serviceReport.UpdatedDate = DateTime.UtcNow;
             serviceReport.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+
+            // Update ServiceType if changed
+            if (updateDto.ServiceType?.Any() == true)
+            {
+                var existingServiceType = serviceReport.ServiceType.FirstOrDefault();
+                if (existingServiceType != null)
+                {
+                    existingServiceType.ServiceTypeWarehouseID = updateDto.ServiceType[0].Id;
+                    existingServiceType.Remark = updateDto.ServiceType[0].Remark;
+                    existingServiceType.UpdatedDate = DateTime.UtcNow;
+                    existingServiceType.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
+
+            // Update FormStatus if changed
+            if (updateDto.FormStatus?.Any() == true)
+            {
+                var existingFormStatus = serviceReport.FormStatus.FirstOrDefault();
+                if (existingFormStatus != null)
+                {
+                    existingFormStatus.FormStatusWarehouseID = updateDto.FormStatus[0].Id;
+                    existingFormStatus.Remark = updateDto.FormStatus[0].Remark;
+                    existingFormStatus.UpdatedDate = DateTime.UtcNow;
+                    existingFormStatus.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
+
+            // Update IssueReported if changed
+            if (updateDto.IssueReported?.Any() == true)
+            {
+                var existingIssueReported = serviceReport.IssueReported.FirstOrDefault();
+                if (existingIssueReported != null)
+                {
+                    existingIssueReported.IssueReportWarehouseID = updateDto.IssueReported[0].Id;
+                    existingIssueReported.Remark = updateDto.IssueReported[0].Remark;
+                    existingIssueReported.UpdatedDate = DateTime.UtcNow;
+                    existingIssueReported.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
+
+            // Update IssueFound if changed
+            if (updateDto.IssueFound?.Any() == true)
+            {
+                var existingIssueFound = serviceReport.IssueFound.FirstOrDefault();
+                if (existingIssueFound != null)
+                {
+                    existingIssueFound.IssueFoundWarehouseID = updateDto.IssueFound[0].Id;
+                    existingIssueFound.Remark = updateDto.IssueFound[0].Remark;
+                    existingIssueFound.UpdatedDate = DateTime.UtcNow;
+                    existingIssueFound.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
+
+            // Update ActionTaken if changed
+            if (updateDto.ActionTaken?.Any() == true)
+            {
+                var existingActionTaken = serviceReport.ActionTaken.FirstOrDefault();
+                if (existingActionTaken != null)
+                {
+                    existingActionTaken.ActionTakenWarehouseID = updateDto.ActionTaken[0].Id;
+                    existingActionTaken.Remark = updateDto.ActionTaken[0].Remark;
+                    existingActionTaken.UpdatedDate = DateTime.UtcNow;
+                    existingActionTaken.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
+
+            // Update FurtherAction if changed
+            if (updateDto.FurtherAction?.Any() == true)
+            {
+                var existingFurtherAction = serviceReport.FurtherActionTaken.FirstOrDefault();
+                if (existingFurtherAction != null)
+                {
+                    existingFurtherAction.FurtherActionTakenWarehouseID = updateDto.FurtherAction[0].Id;
+                    existingFurtherAction.Remark = updateDto.FurtherAction[0].Remark;
+                    existingFurtherAction.UpdatedDate = DateTime.UtcNow;
+                    existingFurtherAction.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+            }
 
             try
             {
@@ -343,7 +463,7 @@ namespace ServiceReportSystem.Controllers
 
         // In DeleteServiceReport method - parameter should be Guid
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteServiceReport(Guid id)
+        public async Task<IActionResult> DeleteServiceReport(Guid id, [FromQuery] string updatedBy)
         {
             var serviceReport = await _context.ServiceReportForms.FindAsync(id);
             if (serviceReport == null || serviceReport.IsDeleted)
@@ -353,7 +473,10 @@ namespace ServiceReportSystem.Controllers
 
             serviceReport.IsDeleted = true;
             serviceReport.UpdatedDate = DateTime.UtcNow;
-            //serviceReport.UpdatedBy = 1; // Replace with actual user ID from authentication
+            if (!string.IsNullOrEmpty(updatedBy))
+            {
+                serviceReport.UpdatedBy = Guid.Parse(updatedBy);
+            }
 
             await _context.SaveChangesAsync();
 

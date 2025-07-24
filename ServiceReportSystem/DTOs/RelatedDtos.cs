@@ -15,10 +15,10 @@ namespace ServiceReportSystem.DTOs
 
     public class UpdateIssueReportedDto
     {
-        public Guid ID { get; set; }  // Add ID property
-        public string Description { get; set; }
-        public string Remark { get; set; }
-        public string UpdatedBy { get; set; }  // Add UpdatedBy property
+        public Guid ID { get; set; }
+        public string? Description { get; set; }  // Make optional
+        public string? Remark { get; set; }
+        public string? UpdatedBy { get; set; }    // Make optional
     }
 
     public class IssueFoundDto
@@ -34,18 +34,12 @@ namespace ServiceReportSystem.DTOs
         public string Remark { get; set; }
     }
 
-    public class UpdateIssueFoundDto
-    {
-        public Guid ID { get; set; }  // Add ID property
-        public string Description { get; set; }
-        public string Remark { get; set; }
-        public string UpdatedBy { get; set; }  // Add UpdatedBy property
-    }
 
     public class ActionTakenDto
     {
         public Guid ID { get; set; }
         public string Description { get; set; }
+        public string Remark { get; set; }  // Add missing Remark property
     }
 
     public class CreateActionTakenDto
@@ -55,9 +49,18 @@ namespace ServiceReportSystem.DTOs
 
     public class UpdateActionTakenDto
     {
-        public Guid ID { get; set; }  // Add ID property
-        public string Description { get; set; }
-        public string UpdatedBy { get; set; }  // Add UpdatedBy property
+        public Guid ID { get; set; }
+        public string? Description { get; set; }  // Make optional
+        public string? Remark { get; set; }       // Add missing Remark
+        public string? UpdatedBy { get; set; }    // Make optional
+    }
+
+    public class UpdateFurtherActionDto
+    {
+        public Guid ID { get; set; }
+        public string? Description { get; set; }  // Make optional
+        public string? Remark { get; set; }
+        public string? UpdatedBy { get; set; }    // Make optional
     }
 
     public class ServiceTypeDto
@@ -73,4 +76,19 @@ namespace ServiceReportSystem.DTOs
         public string Name { get; set; }
         public string Remark { get; set; }
     }
+
+    // Add missing FurtherActionDto
+    public class FurtherActionDto
+    {
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public string Remark { get; set; }
+    }
+
+    public class CreateFurtherActionDto
+    {
+        public string Description { get; set; }
+        public string Remark { get; set; }
+    }
+
 }
